@@ -181,7 +181,6 @@ body.lock{overflow:hidden;height:100vh}
   <h1>Joyeux<br>Anniversaire</h1>
   <div class="name" id="name"></div>
   <div class="age" id="age"></div>
-  <div id="countdown"></div>
   <button class="btn" id="party">🎉 Cliquer pour faire la fête</button>
   <div class="scroll">⌄</div>
 </section>
@@ -243,23 +242,10 @@ photos: [
 const $ = s => document.querySelector(s);
 const [by, bm, bd] = CONFIG.birth.split("-").map(Number);
 const now = new Date();
-let year = now.getFullYear();
-let target = new Date(year, bm - 1, bd);
-// si l'anniversaire de cette année est passé (hier ou avant), on vise l'année suivante
-if (new Date(year, bm - 1, bd + 1) <= now) { year++; target = new Date(year, bm - 1, bd); }
+const year = 2026; // année de l'anniversaire affiché (24 ans)
 $("#name").textContent = CONFIG.name;
 $("#age").textContent = year - by;
 
-/* Compte à rebours */
-function tick(){
-  const d = target - new Date();
-  const box = $("#countdown");
-  if (d <= 0){ box.innerHTML = '<div class="cd"><b>🎉</b><span>C\'est aujourd\'hui !</span></div>'; return; }
-  const v = [["jours",86400000],["heures",3600000],["min",60000],["sec",1000]];
-  let r = d;
-  box.innerHTML = v.map(([l,ms])=>{ const n=Math.floor(r/ms); r%=ms; return `<div class="cd"><b>${String(n).padStart(2,"0")}</b><span>${l}</span></div>`; }).join("");
-}
-tick(); setInterval(tick,1000);
 
 /* Calendrier */
 (function(){
